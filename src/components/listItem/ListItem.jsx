@@ -25,10 +25,10 @@ const ListItem = ({ index }) => {
           <video src={trailer} autoPlay={true} loop />
           <div className="itemInfo">
             <div className="icons">
-              <PlayArrowIcon />
-              <AddIcon />
-              <ThumbUpOutlinedIcon />
-              <ThumbDownAltOutlinedIcon />
+              <PlayArrowIcon className="icon" />
+              <AddIcon className="icon" />
+              <ThumbUpOutlinedIcon className="icon" />
+              <ThumbDownAltOutlinedIcon className="icon" />
             </div>
             <div className="itemInfoTop">
               <span>1 hour 14 mins</span>
@@ -37,8 +37,7 @@ const ListItem = ({ index }) => {
             </div>
             <div className="desc">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-              deserunt, ipsum omnis incidunt itaque aliquid officia temporibus
-              officiis tempora distinctio.
+              deserunt, ipsum omnis incidunt itaque.
             </div>
             <div className="genre">Action</div>
           </div>
