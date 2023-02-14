@@ -4,46 +4,62 @@ import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 
 import "./listItem.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-const ListItem = ({ index }) => {
+const ListItem = ({ index, item }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const trailer = "https://www.w3schools.com/tags/movie.mp4";
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios.get("movies/find/" + item, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZWJiMjgwMWE5NTA2YmMxNzFlYWNmNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3NjQxMTgwNSwiZXhwIjoxNjc2ODQzODA1fQ.vZZ3Wu899mtf_Oehy7OaF2So_DzN12a7RzHhElGR6YU",
+          },
+        });
+        setMovie(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMovie();
+  }, [item]);
+
   return (
-    <div
-      className="listItem"
-      style={{ left: isHovered && index * 224 - 50 + index * 2.5 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img
-        src="https://www.eltiempo.com/uploads/2022/04/27/6269e17a9a9c6.png"
-        alt=""
-      />
-      {isHovered && (
-        <>
-          <video src={trailer} autoPlay={true} loop />
-          <div className="itemInfo">
-            <div className="icons">
-              <PlayArrowIcon className="icon" />
-              <AddIcon className="icon" />
-              <ThumbUpOutlinedIcon className="icon" />
-              <ThumbDownAltOutlinedIcon className="icon" />
+    <Link to={{ pathname: "/watch" }} state={{ movie: movie }}>
+      <div
+        className="listItem"
+        style={{ left: isHovered && index * 224 - 50 + index * 2.5 }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <img src={movie.img} alt="" />
+        {isHovered && (
+          <>
+            <video src={movie.trailer} autoPlay={true} loop />
+            <div className="itemInfo">
+              <div className="icons">
+                <PlayArrowIcon className="icon" />
+                <AddIcon className="icon" />
+                <ThumbUpOutlinedIcon className="icon" />
+                <ThumbDownAltOutlinedIcon className="icon" />
+              </div>
+              <div className="itemInfoTop">
+                <span>{movie.duration}</span>
+                <span className="limit">+{movie.limit}</span>
+                <span>{movie.year}</span>
+              </div>
+              <div className="desc">{movie.desc}</div>
+              <div className="genre">{movie.genre}</div>
             </div>
-            <div className="itemInfoTop">
-              <span>1 hour 14 mins</span>
-              <span className="limit">+16</span>
-              <span>1999</span>
-            </div>
-            <div className="desc">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-              deserunt, ipsum omnis incidunt itaque.
-            </div>
-            <div className="genre">Action</div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </Link>
   );
 };
 

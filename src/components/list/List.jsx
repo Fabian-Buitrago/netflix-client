@@ -6,11 +6,11 @@ import Listitem from "../listItem/ListItem";
 
 import "./list.scss";
 
-const List = () => {
+const List = ({ list }) => {
   const [isMoved, setIsMoved] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
   const [clickLimit, setClickLimit] = useState(window.innerWidth / 230);
-  
+
   const listRef = useRef();
 
   const handleClick = (direction) => {
@@ -27,7 +27,7 @@ const List = () => {
   };
   return (
     <div className="list">
-      <span className="listTitle">Continue to watch</span>
+      <span className="listTitle">{list.title}</span>
       <div className="wrapper">
         <ArrowBackIosNewOutlinedIcon
           className="sliderArrow left"
@@ -35,16 +35,9 @@ const List = () => {
           style={{ display: !isMoved && "none" }}
         />
         <div className="container" ref={listRef}>
-          <Listitem index={0} />
-          <Listitem index={1} />
-          <Listitem index={2} />
-          <Listitem index={3} />
-          <Listitem index={4} />
-          <Listitem index={5} />
-          <Listitem index={6} />
-          <Listitem index={7} />
-          <Listitem index={8} />
-          <Listitem index={9} />
+          {list.content.map((item, i) => (
+            <Listitem index={i} item={item} />
+          ))}
         </div>
         <ArrowForwardIosOutlinedIcon
           className="sliderArrow right"
