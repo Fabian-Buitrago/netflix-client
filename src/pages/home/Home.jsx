@@ -20,7 +20,8 @@ const Home = ({ type }) => {
           {
             headers: {
               token:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZWJiMjgwMWE5NTA2YmMxNzFlYWNmNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3NjQxMTgwNSwiZXhwIjoxNjc2ODQzODA1fQ.vZZ3Wu899mtf_Oehy7OaF2So_DzN12a7RzHhElGR6YU",
+                "Bearer " +
+                JSON.parse(localStorage.getItem("user")).accessToken,
             },
           }
         );
@@ -35,9 +36,9 @@ const Home = ({ type }) => {
   return (
     <div className="home">
       <Navbar />
-      <Featured type={type} />
+      <Featured type={type} setGenre={setGenre} />
       {lists.map((list) => (
-        <List list={list} />
+        <List key={list._id} list={list} />
       ))}
     </div>
   );

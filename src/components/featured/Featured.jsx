@@ -1,15 +1,40 @@
+import { useState, useEffect } from "react";
 import "./featured.scss";
 
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import axios from "axios";
 
-const Featured = ({ type }) => {
+const Featured = ({ type, setGenre }) => {
+  const [content, setContent] = useState({});
+
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const res = await axios.get(`/movies/random?type=${type}`, {
+          headers: {
+            token:
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        });
+        setContent(res.data[0]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getRandomContent();
+  }, [type]);
+
   return (
     <div className="featured">
       {type && (
         <div className="category">
           <span>{type === "movies" ? "Movies" : "Series"}</span>
-          <select name="genre" id="genre">
+          <select
+            name="genre"
+            id="genre"
+            onChange={(e) => setGenre(e.target.value)}
+          >
             <option value="adventure">Adventure</option>
             <option value="comedy">Comedy</option>
             <option value="crime">Crime</option>
@@ -26,22 +51,11 @@ const Featured = ({ type }) => {
           </select>
         </div>
       )}
-      <img
-        src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWFsZSUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
-        alt=""
-      />
+      <img src={content?.img} alt="" />
       <div className="info">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/The-matrix-logo.svg/1280px-The-matrix-logo.svg.png"
-          alt=""
-        />
+        <img src={content?.imgTitle} alt="" />
 
-        <span className="desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
-          minima aperiam molestias magnam quo, totam at asperiores! Perferendis
-          ipsum soluta sapiente impedit fugiat rem cum odio, rerum unde deserunt
-          pariatur.
-        </span>
+        <span className="desc">{content?.desc}</span>
         <div className="buttons">
           <button className="play">
             <PlayArrowIcon />

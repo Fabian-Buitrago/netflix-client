@@ -36,7 +36,7 @@ const List = ({ list }) => {
         />
         <div className="container" ref={listRef}>
           {list.content.map((item, i) => (
-            <Listitem index={i} item={item} />
+            <Listitem key={i} index={i} item={item} />
           ))}
         </div>
         <ArrowForwardIosOutlinedIcon
