@@ -39,7 +39,9 @@ const Register = () => {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
             alt=""
           />
-          <button className="loginButton" onClick={()=> console.log("mmm")}>Sign In</button>
+          <button className="loginButton" onClick={() => navigate("/login")}>
+            Sign In
+          </button>
         </div>
       </div>
       <div className="container">

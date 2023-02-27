@@ -14,7 +14,7 @@ const Featured = ({ type, setGenre }) => {
         const res = await axios.get(`/movies/random?type=${type}`, {
           headers: {
             token:
-              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+              "Bearer " + JSON.parse(localStorage.getItem("user"))?.accessToken,
           },
         });
         setContent(res.data[0]);
